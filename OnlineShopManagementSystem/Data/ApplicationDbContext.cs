@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using OnlineShopManagementSystem.Models;
 
 namespace OnlineShopManagementSystem.Data
 {
@@ -12,5 +13,6 @@ namespace OnlineShopManagementSystem.Data
             : base(options)
         {
         }
+        public DbSet<ProductTypes>ProductTypes { get; set; }
     }
 }
