@@ -9,6 +9,7 @@ using OnlineShopManagementSystem.Models;
 
 namespace OnlineShopManagementSystem.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

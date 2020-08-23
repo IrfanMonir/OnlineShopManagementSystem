@@ -56,13 +56,12 @@ namespace OnlineShopManagementSystem
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseAuthorization();
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{area:Customer}{controller=Home}/{action=Index}/{id?}");
+                    name: "areas",
+                    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
