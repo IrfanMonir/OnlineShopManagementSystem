@@ -10,21 +10,23 @@
         <h2 class="text-info">Product Types List</h2>
     </div>
     <div class="col-6 text-right">
-        <a asp-action="CreateProduct" class="btn btn-info">New Product</a>
+        <a asp-action="CreateProduct" class="btn btn-info"><i class="fa fa-plus"></i> New Product</a>
     </div>
 </div>
 <br/>
 <div class="">
     <table class="table table-striped">
         <tr class="table-info">
-            <th>@Html.DisplayNameFor(c=>c.ProductType)</th>
-            <th>Action</th>
+            <th class="col-8">@Html.DisplayNameFor(c=>c.ProductType)</th>
+            <th class="col-4">Action</th>
         </tr>
         @foreach (var item in Model)
         {
             <tr>
                 <td>@item.ProductType</td>
-                <td>Edit | Details | Delete</td>
+                <td>
+                    <partial name="_buttonPartial" model="@item.Id"/>
+                </td>
             </tr>
         }
     </table>
