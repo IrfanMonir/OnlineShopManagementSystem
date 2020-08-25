@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<br/>
+<br />
 <div class="row">
     <div class="col-6">
         <h2 class="text-info">Product Types List</h2>
@@ -13,11 +13,11 @@
         <a asp-action="CreateProduct" class="btn btn-info"><i class="fa fa-plus"></i> New Product</a>
     </div>
 </div>
-<br/>
+<br />
 <div class="">
     <table class="table table-striped">
         <tr class="table-info">
-            <th class="col-8">@Html.DisplayNameFor(c=>c.ProductType)</th>
+            <th class="col-8">@Html.DisplayNameFor(c => c.ProductType)</th>
             <th class="col-4">Action</th>
         </tr>
         @foreach (var item in Model)
@@ -25,10 +25,22 @@
             <tr>
                 <td>@item.ProductType</td>
                 <td>
-                    <partial name="_buttonPartial" model="@item.Id"/>
+                    <partial name="_buttonPartial" model="@item.Id" />
                 </td>
             </tr>
         }
     </table>
 </div>
 
+@section Scripts
+{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var save = '@TempData["save"]';
+            if (save != null) {
+                alertify.success(save);
+            }
+        });
+    </script>>
+}

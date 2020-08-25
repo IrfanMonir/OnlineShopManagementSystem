@@ -34,6 +34,7 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
             {
                 _dbContext.ProductTypes.Add(productTypes);
                 await _dbContext.SaveChangesAsync();
+                TempData["save"] = "Product type has saved successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(productTypes);
@@ -63,6 +64,70 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(productTypes);
+        }
+
+        public ActionResult ProductDetails(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+
+            var productType = _dbContext.ProductTypes.Find(id);
+            if (productType==null)
+            {
+                return NotFound();
+            }
+            return View(productType);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProductDetails(ProductTypes productTypes)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult ProductDelete(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+
+            var productType = _dbContext.ProductTypes.Find(id);
+            if (productType==null)
+            {
+                return NotFound();
+            }
+            return View(productType);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProductDelete(int? id,ProductTypes productTypes)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+
+            if (id!= productTypes.Id)
+            {
+                return NotFound();
+            }
+            var productType = _dbContext.ProductTypes.Find(id);
+            if (productType == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                _dbContext.ProductTypes.Remove(productType);
+                _dbContext.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(productTypes);
+
         }
     }
 }
