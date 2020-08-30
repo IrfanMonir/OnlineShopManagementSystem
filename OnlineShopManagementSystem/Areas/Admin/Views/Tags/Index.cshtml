@@ -1,0 +1,39 @@
+﻿@using OnlineShopManagementSystem.Models
+@model IEnumerable<Tag>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Special Tag List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="CreateTag" class="btn btn-info"><i class="fa fa-plus"></i> New Tag</a>
+    </div>
+</div>
+<br />
+<div class="">
+    <table class="table table-striped">
+        <tr class="table-info">
+            <th class="col-8">@Html.DisplayNameFor(c => c.Name)</th>
+            <th class="col-4">Action</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    <div class="btn-group">
+                        <a asp-action="TagEdit" asp-controller="Tags" class="btn btn-primary" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                        <a asp-action="TagDetails" asp-controller="Tags" class="btn btn-success" asp-route-id="@item.Id"><i class="fa fa-info-circle"></i></a>
+                        <a asp-action="TagDelete" asp-controller="Tags" class="btn btn-danger" asp-route-id="@item.Id"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                  
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
