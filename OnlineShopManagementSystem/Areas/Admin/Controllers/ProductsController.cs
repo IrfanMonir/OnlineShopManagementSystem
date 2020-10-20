@@ -80,7 +80,17 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
         {
             ViewData["productTypeId"] = new SelectList(_dbContext.ProductTypes.ToList(), "Id", "ProductType");
             ViewData["TagId"] = new SelectList(_dbContext.Tags.ToList(), "Id", "Name");
-            return View();
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _dbContext.Products.Include(c => c.ProductTypes).Include(c => c.Tag).FirstOrDefault(c => c.Id == id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
     }
 }
