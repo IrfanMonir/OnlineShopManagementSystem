@@ -63,13 +63,23 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
 
                     //var name = Path.Combine(_environment.WebRootPath + $@"\Images", Path.GetFileName(image.FileName));               
                     //await image.CopyToAsync(new FileStream(name, FileMode.Create));
-
+                    if (image == null)
+                    {
+                        products.Image = "img/noimage.png";
+                    }
                     products.Image = "img/" + image.FileName;
                 }
                 _dbContext.Add(products);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            return View();
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            ViewData["productTypeId"] = new SelectList(_dbContext.ProductTypes.ToList(), "Id", "ProductType");
+            ViewData["TagId"] = new SelectList(_dbContext.Tags.ToList(), "Id", "Name");
             return View();
         }
     }

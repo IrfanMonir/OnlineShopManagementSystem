@@ -35,7 +35,11 @@
         <td>@item.ProductTypes.ProductType</td>
         <td>@item.Tag.Name</td>
         <td>
-            <partial name="_buttonPartial" model="@item.Id" />
+            <div class="btn-group">
+                <a asp-action="Edit" asp-controller="Products" class="btn btn-primary" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                <a asp-action="ProductDetails" asp-controller="Products" class="btn btn-success" asp-route-id="@item.Id"><i class="fa fa-info-circle"></i></a>
+                <a asp-action="ProductDelete" asp-controller="Products" class="btn btn-danger" asp-route-id="@item.Id"><i class="fa fa-trash-o"></i></a>
+            </div>
         </td>
     </tr>
         }
