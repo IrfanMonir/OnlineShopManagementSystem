@@ -43,8 +43,6 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
-
                 if (image != null)
                 {
                     var filename = ContentDispositionHeaderValue.Parse(image.ContentDisposition).FileName.Trim('"');
@@ -53,16 +51,6 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
                     {
                         await image.CopyToAsync(stream);
                     }
-                    //string uploadsFolder = Path.Combine(_environment.WebRootPath, "Images");
-                    //uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
-                    //string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    //using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    //{
-                    //    image.CopyTo(fileStream);
-                    //}
-
-                    //var name = Path.Combine(_environment.WebRootPath + $@"\Images", Path.GetFileName(image.FileName));               
-                    //await image.CopyToAsync(new FileStream(name, FileMode.Create));
                     if (image == null)
                     {
                         products.Image = "img/noimage.png";
@@ -86,6 +74,44 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
                 return NotFound();
             }
             var product = _dbContext.Products.Include(c => c.ProductTypes).Include(c => c.Tag).FirstOrDefault(c => c.Id == id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        [HttpPost]
+        public async Task<IActionResult>Edit(Product products,IFormFile image)
+        {
+            if (ModelState.IsValid)
+            {
+                if (image != null)
+                {
+                    var filename = ContentDispositionHeaderValue.Parse(image.ContentDisposition).FileName.Trim('"');
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", image.FileName);
+                    using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
+                    {
+                        await image.CopyToAsync(stream);
+                    }
+                    if (image == null)
+                    {
+                        products.Image = "img/noimage.png";
+                    }
+                    products.Image = "img/" + image.FileName;
+                }
+                _dbContext.Update(products);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _dbContext.Products.Include(p => p.ProductTypes).Include(s => s.Tag).FirstOrDefault(m => m.Id == id);
             if (product==null)
             {
                 return NotFound();
