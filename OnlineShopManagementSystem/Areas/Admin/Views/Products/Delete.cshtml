@@ -1,0 +1,103 @@
+﻿@model OnlineShopManagementSystem.Models.Product
+@{
+    ViewData["Title"] = "Delete";
+}
+<div class="panel panel-card margin-b-30">
+    <div class="panel-heading panel-heading-custom">
+        <h4 class="panel-title">PRODUCT DELETE</h4>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Delete", "Products", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            <div class="col-md-12 col-md-offset-3">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12" style="border: 3px solid aliceblue; padding: 10px;">
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                        @Html.HiddenFor(p => p.Id)
+                                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @autofocus = true, @readonly = "readonly", @placeholder = "Enter Name" })
+                                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger", @id = "Name" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                        @Html.LabelFor(m => m.Price, new { @class = "control-label" })
+                                        @Html.TextBoxFor(m => m.Price, new { @class = "form-control", @autofocus = true, @readonly = "readonly", @placeholder = "Enter Price" })
+                                        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger", @id = "Price" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @*<div class="col-lg-6">
+                                            @Html.LabelFor(m => m.Image, new { @class = "control-label" })
+                                            @Html.TextBoxFor(m => m.Image, new { @class = "form-control", @autofocus = true, @readonly = "readonly", @type = "file" })
+                                            @Html.ValidationMessageFor(m => m.Image, "", new { @class = "text-danger", @id = "Image" })
+                                        </div>*@
+                                    <div class="col-lg-3">
+                                        <img src="~/@Model.Image" ,width="100%" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                        @Html.LabelFor(m => m.ProductColor, new { @class = "control-label" })
+                                        @Html.TextBoxFor(m => m.ProductColor, new { @class = "form-control", @readonly = "readonly", @autofocus = true })
+                                        @Html.ValidationMessageFor(m => m.ProductColor, "", new { @class = "text-danger", @id = "ProductColor" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                        @Html.LabelFor(m => m.ProductTypeId, new { @class = "control-label" })
+                                        @*@Html.DropDownListFor(m => m.ProductTypeId, new SelectList(ViewBag.productTypeId, "Value", "Text"), new { @class = "form-control multiple-select",@readonly = "readonly" })*@
+                                        <input asp-for="ProductTypeId" readonly="readonly" class="form-control" />
+                                        @Html.ValidationMessageFor(m => m.ProductTypeId, "", new { @class = "text-danger", @id = "ProductTypeId" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                        @Html.LabelFor(m => m.TagId, new { @class = "control-label" })
+                                        @*@Html.DropDownListFor(m => m.TagId, new SelectList(ViewBag.TagId, "Value", "Text"), new { @class = "form-control multiple-select", @readonly = "readonly" })*@
+                                        <input asp-for="TagId" readonly="readonly" class="form-control" />
+                                        @Html.ValidationMessageFor(m => m.TagId, "", new { @class = "text-danger", @id = "TagId" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                        @Html.LabelFor(m => m.IsAvailable, new { @class = "control-label" })
+                                        @Html.CheckBoxFor(m => m.IsAvailable, new { @autofocus = true, @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(m => m.IsAvailable, "", new { @class = "text-danger", @id = "IsAvailable" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="pull-right">
+                                        <div class="col-md-12">
+                                            <input type="submit" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger" value="Delete"/>
+                                            <a href="@Url.Action("Index", "Products")" class="btn btn-md btn-warning btn-clear">
+                                                Back To List
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+
+
+
+
+

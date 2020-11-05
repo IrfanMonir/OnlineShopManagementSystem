@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShopManagementSystem.Data;
 
 namespace OnlineShopManagementSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201105112308_productupdated")]
+    partial class productupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,8 +254,6 @@ namespace OnlineShopManagementSystem.Data.Migrations
 
                     b.HasIndex("ProductTypeId");
 
-                    b.HasIndex("TagId");
-
                     b.ToTable("Products");
                 });
 
@@ -268,7 +268,12 @@ namespace OnlineShopManagementSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProductTypesId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductTypesId");
 
                     b.ToTable("ProductTypes");
                 });
@@ -283,7 +288,12 @@ namespace OnlineShopManagementSystem.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TagId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("Tags");
                 });
@@ -349,9 +359,23 @@ namespace OnlineShopManagementSystem.Data.Migrations
 
                     b.HasOne("OnlineShopManagementSystem.Models.Tag", "Tag")
                         .WithMany()
-                        .HasForeignKey("TagId")
+                        .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineShopManagementSystem.Models.ProductTypes", b =>
+                {
+                    b.HasOne("OnlineShopManagementSystem.Models.ProductTypes", null)
+                        .WithMany("productTypes")
+                        .HasForeignKey("ProductTypesId");
+                });
+
+            modelBuilder.Entity("OnlineShopManagementSystem.Models.Tag", b =>
+                {
+                    b.HasOne("OnlineShopManagementSystem.Models.Tag", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("TagId");
                 });
 #pragma warning restore 612, 618
         }

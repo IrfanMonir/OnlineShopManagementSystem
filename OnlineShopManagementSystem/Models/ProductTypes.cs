@@ -12,5 +12,7 @@ namespace OnlineShopManagementSystem.Models
         [Required]
         [Display(Name = "Product Type")]
         public string ProductType { get; set; }
+
+        //public virtual ICollection<ProductTypes>productTypes{ get; set; }
     }
 }

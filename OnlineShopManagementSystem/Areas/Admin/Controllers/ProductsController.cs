@@ -118,5 +118,37 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
             }
             return View(product);
         }
+        // delete get method
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _dbContext.Products.Include(p => p.ProductTypes).Include(s => s.Tag).Where(m => m.Id == id).FirstOrDefault();
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        [HttpPost]
+        //[ActionName("Delete")]
+        public async Task<IActionResult>Delete(int id)
+        {
+            if (id==0)
+            {
+                return NotFound(id);
+               
+            }
+            var product = _dbContext.Products.FirstOrDefault(p => p.Id == id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            _dbContext.Products.Remove(product);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace OnlineShopManagementSystem.Models
         [Required]
         [DisplayName("Special Product Tag")]
         public int TagId { get; set; }
-        [ForeignKey("ProductTypeId")]
+        [ForeignKey("TagId")]
         public Tag Tag { get; set; }
     }
 }
