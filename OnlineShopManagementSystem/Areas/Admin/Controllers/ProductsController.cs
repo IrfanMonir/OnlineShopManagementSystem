@@ -30,6 +30,12 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
         {
             return View(_dbContext.Products.Include(c=>c.ProductTypes).Include(s=>s.Tag).ToList());
         }
+        [HttpPost]
+        public IActionResult Index(decimal lowAmount, decimal largeAmount)
+        {
+            var products = _dbContext.Products.Include(c => c.ProductTypes).Include(c => c.Tag).Where(p => p.Price >= lowAmount && p.Price <= largeAmount).ToList();
+            return View(products);
+        }
         //Get Method Create
         public ActionResult Create()
         {
@@ -43,6 +49,15 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var searchProduct = _dbContext.Products.FirstOrDefault(P => P.Name == products.Name);
+                if (searchProduct!=null)
+                {
+                    ViewBag.message = "This product is already exists";
+                    ViewData["productTypeId"] = new SelectList(_dbContext.ProductTypes.ToList(), "Id", "ProductType");
+                    ViewData["TagId"] = new SelectList(_dbContext.Tags.ToList(), "Id", "Name");
+                    return View(products);
+                }
+
                 if (image != null)
                 {
                     var filename = ContentDispositionHeaderValue.Parse(image.ContentDisposition).FileName.Trim('"');
