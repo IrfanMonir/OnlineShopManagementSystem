@@ -31,9 +31,13 @@ namespace OnlineShopManagementSystem.Areas.Admin.Controllers
             return View(_dbContext.Products.Include(c=>c.ProductTypes).Include(s=>s.Tag).ToList());
         }
         [HttpPost]
-        public IActionResult Index(decimal lowAmount, decimal largeAmount)
+        public IActionResult Index(decimal? lowAmount, decimal? largeAmount)
         {
             var products = _dbContext.Products.Include(c => c.ProductTypes).Include(c => c.Tag).Where(p => p.Price >= lowAmount && p.Price <= largeAmount).ToList();
+            if (lowAmount == null || largeAmount == null)
+            {
+                 products = _dbContext.Products.Include(c => c.ProductTypes).Include(p => p.Tag).ToList();
+            }
             return View(products);
         }
         //Get Method Create
