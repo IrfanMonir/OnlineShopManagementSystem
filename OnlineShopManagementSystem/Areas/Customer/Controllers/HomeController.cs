@@ -28,6 +28,21 @@ namespace OnlineShopManagementSystem.Controllers
             return View(_dbContext.Products.Include(p=>p.ProductTypes).Include(s=>s.Tag).ToList());
         }
 
+        //Get product detail action method
+        public ActionResult Detail(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _dbContext.Products.Include(c => c.ProductTypes).FirstOrDefault(c => c.Id == id);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
         public IActionResult Privacy()
         {
             return View();
