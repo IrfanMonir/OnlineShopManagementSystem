@@ -2,6 +2,12 @@
 @{
     ViewData["Title"] = "Details";
 }
+<style>
+    .image{
+        width:100px;
+        height:30px;
+    }
+</style>
 <div class="panel panel-card margin-b-30">
     <div class="panel-heading panel-heading-custom">
         <h4 class="panel-title">PRODUCT DETAILS</h4>
@@ -11,11 +17,11 @@
         {
             <div class="col-md-12 col-md-offset-3">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12" style="border: 3px solid aliceblue; padding: 10px;">
+                    <div class="col-lg-12" style="border: 3px solid aliceblue; padding: 10px;">
                         <div class="form-group">
-                            <div class="col-lg-12">
+                            <div class="col-lg-6" style="float:left";>
                                 <div class="form-group">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         @Html.HiddenFor(p => p.Id)
                                         @Html.LabelFor(m => m.Name, new { @class = "control-label" })
                                         @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @autofocus = true, @readonly = "readonly", @placeholder = "Enter Name" })
@@ -23,62 +29,54 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         @Html.LabelFor(m => m.Price, new { @class = "control-label" })
                                         @Html.TextBoxFor(m => m.Price, new { @class = "form-control", @autofocus = true, @readonly = "readonly", @placeholder = "Enter Price" })
                                         @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger", @id = "Price" })
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    @*<div class="col-lg-6">
-            @Html.LabelFor(m => m.Image, new { @class = "control-label" })
-            @Html.TextBoxFor(m => m.Image, new { @class = "form-control", @autofocus = true, @readonly = "readonly", @type = "file" })
-            @Html.ValidationMessageFor(m => m.Image, "", new { @class = "text-danger", @id = "Image" })
-        </div>*@
-                                    <div class="col-lg-3">
-                                        <img src="~/@Model.Image" ,width="100%" />
 
-                                    </div>
-                                    <div class="col-lg-3">
-                                        @if (Model.IsAvailable)
-                                        {
-                                            <img src="~/img/Instock.png",width="200px" ;height="50px"  />
-                                        }
-                                        else
-                                        {
-                                            <img src="~/img/out-stock-icon-internet-button-600w-456122581.jpg" ,width="200px" ;height="50px" />
-                                        }
-                                    </div>
-                                </div>
                                 <div class="form-group">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         @Html.LabelFor(m => m.ProductColor, new { @class = "control-label" })
                                         @Html.TextBoxFor(m => m.ProductColor, new { @class = "form-control", @readonly = "readonly", @autofocus = true })
                                         @Html.ValidationMessageFor(m => m.ProductColor, "", new { @class = "text-danger", @id = "ProductColor" })
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         @Html.LabelFor(m => m.ProductTypeId, new { @class = "control-label" })
                                         @*@Html.DropDownListFor(m => m.ProductTypeId, new SelectList(ViewBag.productTypeId, "Value", "Text"), new { @class = "form-control multiple-select",@readonly = "readonly" })*@
                                         <input asp-for="ProductTypeId" readonly="readonly" class="form-control" />
                                         @Html.ValidationMessageFor(m => m.ProductTypeId, "", new { @class = "text-danger", @id = "ProductTypeId" })
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
-                                    <div class="col-lg-6">
-                                      <input type="submit" class="btn btn-info" value="Add To Cart" />
+                                    <div class="col-lg-12">
+                                        <input type="submit" class="btn btn-info" value="Add To Cart" />
+                                        <a href="@Url.Action("Index", "Home")" class="btn btn-md btn-warning btn-clear">
+                                            Back To List
+                                        </a>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-lg-6" style="overflow:hidden!important;padding-top:20px;">
                                 <div class="form-group">
-                                    <div class="pull-right">
-                                        <div class="col-md-12">
-                                         
-                                            <a href="@Url.Action("Index", "Home")" class="btn btn-md btn-warning btn-clear">
-                                                Back To List
-                                            </a>
-                                        </div>
+
+                                    <div class="col-lg-9">
+                                        <img src="~/@Model.Image" ,width="100%" />
+
+                                    </div>
+                                    <div class="col-lg-3" style="padding-top:10px;">
+                                        @if (Model.IsAvailable)
+                                        {
+                                            <img src="~/img/Instock.png" class="image" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/img/out-stock-icon-internet-button-600w-456122581.jpg" />
+                                        }
                                     </div>
                                 </div>
                             </div>
