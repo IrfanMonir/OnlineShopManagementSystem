@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using System.Net.Http
+@using OnlineShopManagementSystem.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{ 
+    int count = 0;
+    List<Product> products = HttpContextAccessor.HttpContext.Session.Get<List<Product>>("products");
+    if (products==null)
+    {
+        products = new List<Product>();
+    }
+    count = products.Count();
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,6 +23,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <header>
@@ -31,6 +45,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Products" asp-action="Index"><i class="fad fa-shopping-cart"></i>CART (@count)</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

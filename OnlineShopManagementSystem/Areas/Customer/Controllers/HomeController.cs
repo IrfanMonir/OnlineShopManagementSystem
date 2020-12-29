@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using OnlineShopManagementSystem.Data;
 using OnlineShopManagementSystem.Models;
+using OnlineShopManagementSystem.Utility;
 
 namespace OnlineShopManagementSystem.Controllers
 {
@@ -42,7 +43,30 @@ namespace OnlineShopManagementSystem.Controllers
             }
             return View(product);
         }
-
+        //Post product detail action method
+        [HttpPost]
+        [ActionName("Detail")]
+        public ActionResult ProductDetail(int? id)
+        {
+            List<Product> products = new List<Product>();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _dbContext.Products.Include(c => c.ProductTypes).FirstOrDefault(c => c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            products = HttpContext.Session.Get<List<Product>>("products");
+            if (products==null)
+            {
+                products = new List<Product>();
+            }
+            products.Add(product);
+            HttpContext.Session.Set("products", products);
+            return View(product);
+        }
         public IActionResult Privacy()
         {
             return View();
