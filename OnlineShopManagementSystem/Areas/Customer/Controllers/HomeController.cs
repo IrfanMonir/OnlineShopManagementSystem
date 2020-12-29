@@ -65,7 +65,23 @@ namespace OnlineShopManagementSystem.Controllers
             }
             products.Add(product);
             HttpContext.Session.Set("products", products);
-            return View(product);
+            return RedirectToAction(nameof(Index));
+            //return View(product);
+        }
+        [HttpPost]
+        public IActionResult Remove(int? id)
+        {
+            List<Product> products = HttpContext.Session.Get<List<Product>>("products");
+            if (products!=null)
+            {
+                var product = products.FirstOrDefault(c => c.Id == id);
+                if (product!=null)
+                {
+                    products.Remove(product);
+                }
+            }
+            HttpContext.Session.Set("products", products);
+            return RedirectToAction(nameof(Index));
         }
         public IActionResult Privacy()
         {
