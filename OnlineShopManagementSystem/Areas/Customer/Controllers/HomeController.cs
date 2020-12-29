@@ -68,6 +68,21 @@ namespace OnlineShopManagementSystem.Controllers
             return RedirectToAction(nameof(Index));
             //return View(product);
         }
+        [ActionName("Remove")]
+        public IActionResult RemoveToCart(int? id)
+        {
+            List<Product> products = HttpContext.Session.Get<List<Product>>("products");
+            if (products != null)
+            {
+                var product = products.FirstOrDefault(c => c.Id == id);
+                if (product != null)
+                {
+                    products.Remove(product);
+                }
+            }
+            HttpContext.Session.Set("products", products);
+            return RedirectToAction(nameof(Index));
+        }
         [HttpPost]
         public IActionResult Remove(int? id)
         {
@@ -82,6 +97,17 @@ namespace OnlineShopManagementSystem.Controllers
             }
             HttpContext.Session.Set("products", products);
             return RedirectToAction(nameof(Index));
+        }
+
+        //Get product cart action method
+        public IActionResult Cart()
+        {
+            List<Product> products = HttpContext.Session.Get<List<Product>>("products");
+            if (products==null)
+            {
+                products = new List<Product>();
+            }
+            return View(products);
         }
         public IActionResult Privacy()
         {
