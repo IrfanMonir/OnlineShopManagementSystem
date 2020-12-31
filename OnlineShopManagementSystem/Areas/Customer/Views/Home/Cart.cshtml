@@ -65,7 +65,7 @@
                 <div class="col-md-12">
                     <h3>Total Amount:</h3>
                     <h3>Grant Total:@Model.Sum(c => c.Price)</h3>
-                    <a asp-action="Index" asp-controller="Home" class="btn btn-info">Process To Checkout</a>
+                    <a asp-area="Customer" asp-action="CheckOut" asp-controller="Order" class="btn btn-info">Process To Checkout</a>
                     @*<a asp-action="Index" asp-controller="Home" class="btn btn-success pull-right">Bact To List</a>*@
                 </div>
             </div>

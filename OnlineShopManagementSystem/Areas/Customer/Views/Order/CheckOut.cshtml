@@ -1,0 +1,130 @@
+﻿@model OnlineShopManagementSystem.Models.Order
+@using OnlineShopManagementSystem.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Order";
+}
+
+@{
+
+    List<Product> products = HttpContextAccessor.HttpContext.Session.Get<List<Product>>("products");
+    
+    if (products == null)
+    {
+        products = new List<Product>();
+    }
+
+}
+<style>
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #dee2e6;
+        line-height: 2.8rem;
+        width: 400px;
+        text-align: center;
+    }
+</style>
+<div class="panel panel-card margin-b-30">
+    <div class="panel-heading panel-heading-custom">
+        <h4 class="panel-title">ORDER DETAILS</h4>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("CheckOut", "Order", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            <div class="col-md-12 col-md-offset-3">
+                <div class="row">
+                    <div class="col-lg-12" style="border: 3px solid aliceblue; padding: 10px;">
+                        <div class="form-group">
+                            <div class="col-lg-6" style="float:left" ;>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.HiddenFor(p => p.Id)
+                                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @autofocus = true, @placeholder = "Enter Name" })
+                                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger", @id = "Name" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(m => m.Phone, new { @class = "control-label" })
+                                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @autofocus = true, @placeholder = "Enter Price" })
+                                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger", @id = "Phone" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(m => m.Address, new { @class = "control-label" })
+                                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @autofocus = true })
+                                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger", @id = "Address" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @autofocus = true })
+                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", @id = "Email" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        @Html.LabelFor(m => m.OrderDate, new { @class = "control-label" })
+                                        @*<input type="datetime" asp-for="OrderDate" class=""/>*@
+                                        @Html.TextBoxFor(m => m.OrderDate, new { @type = "date", @class = "form-control datepicker", @autofocus = true })
+                                        @Html.ValidationMessageFor(m => m.OrderDate, "", new { @class = "text-danger", @id = "OrderDate" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" style="overflow:hidden!important;padding-top:20px;">
+                                <table class="table-bordered table-striped">
+                                    <thead>
+                                        <tr style="font-size: 15px;">
+                                            <th style="text-align:center!important;width:200px!important;">IMAGE</th>
+                                            <th style="text-align:center;width: 100px;">NAME</th>
+                                            <th style="text-align:center;width: 100px;">PRICE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in products)
+                                        {
+                                            <tr style="font-size: 15px;">
+                                                <td style="width:200px!important;">
+                                                    <img src="~/@item.Image" style="width:150px!important;height:100px!important;" />
+                                                </td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Price</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="text-right">
+                                    <h3>Total Price:@products.Sum(c => c.Price)</h3>
+                                </div>
+                                <div class="form-group text-right">
+                                    <input type="submit" value="Place Order" class="btn btn-success" /> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+
+
+
+
+
+
+
