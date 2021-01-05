@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using OnlineShopManagementSystem.Data;
 using OnlineShopManagementSystem.Models;
 using OnlineShopManagementSystem.Utility;
+using X.PagedList;
 
 namespace OnlineShopManagementSystem.Controllers
 {
@@ -24,9 +25,9 @@ namespace OnlineShopManagementSystem.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int?page)
         {
-            return View(_dbContext.Products.Include(p=>p.ProductTypes).Include(s=>s.Tag).ToList());
+            return View(_dbContext.Products.Include(p=>p.ProductTypes).Include(s=>s.Tag).ToList().ToPagedList(page??1,9));
         }
 
         //Get product detail action method
