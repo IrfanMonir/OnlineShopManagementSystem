@@ -15,6 +15,7 @@ namespace OnlineShopManagementSystem.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public Decimal Price { get; set; }
         public string Image { get; set; }
         [DisplayName("Color")]
